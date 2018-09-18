@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">BackgroundTimer</string>
     <string name="greetings">Ola!</string>
+    <string name="countdown_prompt">Countdown goes here…</string>
+    <string name="timer_finished">Done counting</string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
+    <string name="timer_stopped">Timer stopped</string>
 </resources>

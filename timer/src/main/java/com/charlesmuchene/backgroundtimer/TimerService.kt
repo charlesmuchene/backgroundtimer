@@ -1,3 +1,18 @@
+/* Copyright (C) 2018 Charles Muchene
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.charlesmuchene.backgroundtimer
 
 import android.app.Service
@@ -7,6 +22,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.IBinder
 import android.support.v4.content.LocalBroadcastManager
+import android.util.Log
 import com.charlesmuchene.backgroundtimer.BackgroundTimer.Companion.START_TIMER
 import com.charlesmuchene.backgroundtimer.BackgroundTimer.Companion.STOP_TIMER_ACTION
 import com.charlesmuchene.backgroundtimer.BackgroundTimer.Companion.TIMER_ACTION
@@ -30,6 +46,7 @@ internal class TimerService : Service() {
 
     override fun onCreate() {
         super.onCreate()
+        Log.e("Tag", "We are creating service")
         stopReceiver = StopReceiver()
         broadcastManager = LocalBroadcastManager.getInstance(this)
         broadcastManager.registerReceiver(stopReceiver, IntentFilter(STOP_TIMER_ACTION))
@@ -37,6 +54,7 @@ internal class TimerService : Service() {
 
     override fun onDestroy() {
         super.onDestroy()
+        Log.e("Tag", "We are finishing service")
         broadcastManager.unregisterReceiver(stopReceiver)
     }
 
@@ -56,6 +74,7 @@ internal class TimerService : Service() {
         val timerTag = intent.getStringExtra(TIMER_TAG) ?: return
         if (!isRunning && action == START_TIMER) {
             tag = timerTag
+            isRunning = true
             startTimer(timerTag, intent)
         }
     }
@@ -81,6 +100,7 @@ internal class TimerService : Service() {
             putExtra(TIMER_TAG, tag)
         }
         broadcastManager.sendBroadcast(intent)
+        stopSelf()
     }
 
     override fun onBind(intent: Intent?): IBinder? = null

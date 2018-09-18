@@ -1,2 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.charlesmuchene.backgroundtimer" />
+    package="com.charlesmuchene.backgroundtimer">
+
+    <application>
+        <service
+            android:name=".TimerService"
+            android:exported="false" />
+    </application>
+
+</manifest>
